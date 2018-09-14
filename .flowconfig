@@ -1,7 +1,9 @@
 [ignore]
 ; We fork some components by platform
 .*/*[.]android.js
-
+.*/node_modules/react-native/Libraries/Core/Timers/*
+.*/node_modules/react-native/Libraries/BatchedBridge/MessageQueue/*
+.*/node_modules/react-native/Libraries/BatchedBridge/*
 ; Ignore "BUCK" generated dirs
 <PROJECT_ROOT>/\.buckd/
 
