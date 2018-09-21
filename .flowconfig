@@ -1,9 +1,7 @@
 [ignore]
 ; We fork some components by platform
 .*/*[.]android.js
-.*/node_modules/react-native/Libraries/Core/Timers/*
-.*/node_modules/react-native/Libraries/BatchedBridge/MessageQueue/*
-.*/node_modules/react-native/Libraries/BatchedBridge/*
+.*/node_modules/react-native-tab-view/*
 ; Ignore "BUCK" generated dirs
 <PROJECT_ROOT>/\.buckd/
 
@@ -29,6 +27,8 @@ node_modules/react-native/flow/
 node_modules/react-native/flow-github/
 
 [options]
+module.system.node.resolve_dirname=node_modules
+module.system.node.resolve_dirname=src
 emoji=true
 
 module.system=haste
@@ -45,7 +45,6 @@ module.system.haste.paths.blacklist=.*/__tests__/.*
 module.system.haste.paths.blacklist=.*/__mocks__/.*
 module.system.haste.paths.blacklist=<PROJECT_ROOT>/node_modules/react-native/Libraries/Animated/src/polyfills/.*
 module.system.haste.paths.whitelist=<PROJECT_ROOT>/node_modules/react-native/Libraries/.*
-
 munge_underscores=true
 
 module.name_mapper='^[./a-zA-Z0-9$_-]+\.\(bmp\|gif\|jpg\|jpeg\|png\|psd\|svg\|webp\|m4v\|mov\|mp4\|mpeg\|mpg\|webm\|aac\|aiff\|caf\|m4a\|mp3\|wav\|html\|pdf\)$' -> 'RelativeImageStub'
