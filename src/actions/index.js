@@ -1,7 +1,5 @@
 // @flow
 import * as AuthActions from "./thought.action";
-import type { LoadAction, AuthenticateAction } from "./thought.action";
+import type { ThoughtsActions } from "./thought.action.types";
 
-export type Action = LoadAction | AuthenticateAction;
-
-export const ActionCreators = Object.assign({}, AuthActions);
+export type Action = ThoughtsActions;

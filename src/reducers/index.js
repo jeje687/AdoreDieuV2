@@ -1,7 +1,10 @@
 // @flow
 import { combineReducers } from "redux";
+import thoughtsReducers from "./thoughts.reducer";
 
-const reducers = {};
+const reducers = {
+  thoughts: thoughtsReducers
+};
 
 export type Reducers = typeof reducers;
 

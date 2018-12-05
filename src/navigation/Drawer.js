@@ -14,7 +14,6 @@ import {
   Image,
   TouchableOpacity
 } from "react-native";
-import LinearGradient from "react-native-linear-gradient";
 import { colors } from "@assets/colors";
 import Icon from "react-native-vector-icons/Ionicons";
 import { DrawerRow } from "./DrawerRow";
@@ -59,7 +58,7 @@ export default class Drawer extends Component<Props, State> {
       routeName: route
     });
     this.props.navigation.dispatch(navigateAction);
-    this.props.navigation.dispatch(DrawerActions.closeDrawer());
+    this.props.navigation.dispatch(DrawerActions.closeDrawer({}));
   };
 
   goHome = this.navigateToScreen.bind(this, "Thoughts");
@@ -110,7 +109,7 @@ export default class Drawer extends Component<Props, State> {
             forceInset={{ top: "always", horizontal: "never" }}
           >
             <Image
-              source={require("./../assets/img/add_logo/add_logo.png")}
+              source={require("@assets/img/add_logo/add_logo.png")}
               resizeMode="cover"
               style={{ marginTop: 10, marginBottom: 20 }}
             />
@@ -128,66 +127,36 @@ export default class Drawer extends Component<Props, State> {
                 backgroundColor: colors.mainColor
               }}
             >
-              <Animatable.View ref={this.registerRef}>
-                <View style={{ flex: 1, height: 50 }}>
-                  {this.state.show >= 1 && (
-                    <DrawerRow
-                      name="md-home"
-                      title="Home"
-                      selected={activeItemKey === "Thoughts"}
-                      onPress={this.goHome}
-                    />
-                  )}
-                </View>
-              </Animatable.View>
-              <Animatable.View ref={this.registerRef}>
-                <View style={{ flex: 1, height: 50 }}>
-                  {this.state.show >= 2 && (
-                    <DrawerRow
-                      name="md-headset"
-                      title="Music"
-                      selected={activeItemKey === "MusicPlayer"}
-                      onPress={this.goMusicPlayer}
-                    />
-                  )}
-                </View>
-              </Animatable.View>
-              <Animatable.View ref={this.registerRef}>
-                <View style={{ flex: 1, height: 50 }}>
-                  {this.state.show >= 3 && (
-                    <DrawerRow
-                      name="md-quote"
-                      title="Citations"
-                      selected={activeItemKey === "Citations"}
-                      onPress={this.goCitations}
-                    />
-                  )}
-                </View>
-              </Animatable.View>
-              <Animatable.View ref={this.registerRef}>
-                <View style={{ flex: 1, height: 50 }}>
-                  {this.state.show >= 4 && (
-                    <DrawerRow
-                      name="md-easel"
-                      title="Education"
-                      selected={activeItemKey === "Education"}
-                      onPress={this.goEducation}
-                    />
-                  )}
-                </View>
-              </Animatable.View>
-              <Animatable.View ref={this.registerRef}>
-                <View style={{ flex: 1, height: 50 }}>
-                  {this.state.show >= 5 && (
-                    <DrawerRow
-                      name="md-book"
-                      title="Bible"
-                      selected={activeItemKey === "Bible"}
-                      onPress={this.goBible}
-                    />
-                  )}
-                </View>
-              </Animatable.View>
+              <DrawerRow
+                name="md-home"
+                title="Home"
+                selected={activeItemKey === "Thoughts"}
+                onPress={this.goHome}
+              />
+              <DrawerRow
+                name="md-headset"
+                title="Music"
+                selected={activeItemKey === "MusicPlayer"}
+                onPress={this.goMusicPlayer}
+              />
+              <DrawerRow
+                name="md-quote"
+                title="Citations"
+                selected={activeItemKey === "Citations"}
+                onPress={this.goCitations}
+              />
+              <DrawerRow
+                name="md-easel"
+                title="Education"
+                selected={activeItemKey === "Education"}
+                onPress={this.goEducation}
+              />
+              <DrawerRow
+                name="md-book"
+                title="Bible"
+                selected={activeItemKey === "Bible"}
+                onPress={this.goBible}
+              />
             </View>
           </SafeAreaView>
         </ScrollView>

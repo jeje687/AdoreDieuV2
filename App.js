@@ -12,40 +12,32 @@ import { Provider } from "react-redux";
 import { colors } from "@assets/colors";
 import {
   createStore,
-  applyMiddleware,
   combineReducers,
+  applyMiddleware,
   compose,
   Store as ReduxStore,
   Dispatch as ReduxDispatch
 } from "redux";
 import type { Action } from "./src/actions";
 import type { State as GlobalState } from "./src/reducers";
-import thunkMiddleware from "redux-thunk";
-import { createLogger } from "redux-logger";
+import { logger } from "redux-logger";
+import createSagaMiddleware from "redux-saga";
 import { RootNavigation } from "./src/navigation/RootNavigation";
 import reducer from "./src/reducers";
-
-/*export type Store = ReduxStore<GlobalState, Action>;
+import RootSaga from "./src/sagas/Root";
+import { Provider as PaperProvider } from "react-native-paper";
+import { theme } from "./src/assets/theme";
+export type Store = ReduxStore<GlobalState, Action>;
 export type GetState = () => GlobalState;
-export type Dispatch = ReduxDispatch<Action> & Thunk<Action>;
-export type Thunk<A> = ((Dispatch, GetState) => Promise<void> | void) => A;
 
-// middleware that logs actions
-const loggerMiddleware = createLogger({
-    predicate: (getState, action) => __DEV__
-});
+const sagaMiddleware = createSagaMiddleware();
 
 function configureStore(): Store {
-    const enhancer = compose(
-        applyMiddleware(
-            thunkMiddleware, // lets us dispatch() functions
-            loggerMiddleware
-        )
-    );
-    return createStore(reducer, enhancer);
+  return createStore(reducer, applyMiddleware(sagaMiddleware, logger)); // lets us dispatch() functions
 }
 
-const store: Store = configureStore();*/
+const store: Store = configureStore();
+sagaMiddleware.run(RootSaga);
 
 type Props = {};
 type State = {
@@ -71,12 +63,14 @@ export default class App extends Component<Props, State> {
       <View key="root" style={{ flex: 1 }}>
         <Loader
           isLoaded={this.state.appHasLoaded}
-          imageSource={require("./src/assets/img/gold_crown_plain_white.png")}
-          backgroundStyle={{
-            backgroundColor: colors.mainColor
-          }}
+          imageSource={require("@assets/img/gold_crown_plain_white.png")}
+          backgroundStyle={{ backgroundColor: colors.mainColor }}
         >
-          <RootNavigation />
+          <Provider store={store}>
+            <PaperProvider theme={theme}>
+              <RootNavigation />
+            </PaperProvider>
+          </Provider>
         </Loader>
       </View>
     );

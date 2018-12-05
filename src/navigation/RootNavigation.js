@@ -8,8 +8,12 @@ import { colors } from "@assets/colors";
 import Drawer from "./Drawer";
 import type { NavigationScreenProp } from "react-navigation";
 
-export const globalNavOptions = ({ navigation }: NavigationScreenProp) => {
-  console.log(navigation.state.isDrawerOpen);
+export const globalNavOptions = ({
+  navigation
+}: {
+  navigation: NavigationScreenProp<*>
+}) => {
+  debugger;
   return {
     title: "ReactNavigation",
     headerLeft: (
