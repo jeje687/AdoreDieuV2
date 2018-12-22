@@ -1,22 +1,23 @@
-//@flow
+// @flow
 import type { Action } from "@actions";
 import type { Thought } from "@services/entities/Thought";
 import type { State as GlobalState } from "@reducers";
+
 export type ThoughtsState = {
   list: Array<Thought>,
   page: number,
   loading: boolean
 };
 
-let initialState: ThoughtsState = {
+const initialState: ThoughtsState = {
   list: [],
   page: 1,
   loading: false
 };
 
-export const pageSelector = (state: ThoughtsState) => state.page;
+export const pageSelector = (state: GlobalState) => state.thoughts.page;
 
-let thoughtsReducers = (
+const thoughtsReducers = (
   state: ThoughtsState,
   action: Action
 ): ThoughtsState => {
@@ -28,7 +29,8 @@ let thoughtsReducers = (
         ...state,
         ...{
           list: [...state.list, ...action.thoughts],
-          loading: false
+          loading: false,
+          page: state.page + 1
         }
       };
     case "GET_THOUGHTS_FAILED":

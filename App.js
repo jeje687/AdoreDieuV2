@@ -4,29 +4,25 @@
  *
  * @flow
  */
-import { Platform, StyleSheet, Text, View } from "react-native";
+import { View } from "react-native";
 import React, { Component } from "react";
 import SplashScreen from "react-native-splash-screen";
+import { Navigation } from "react-native-navigation";
 import Loader from "react-native-mask-loader";
 import { Provider } from "react-redux";
 import { colors } from "@assets/colors";
-import {
-  createStore,
-  combineReducers,
-  applyMiddleware,
-  compose,
-  Store as ReduxStore,
-  Dispatch as ReduxDispatch
-} from "redux";
-import type { Action } from "./src/actions";
-import type { State as GlobalState } from "./src/reducers";
+import { createStore, applyMiddleware, Store as ReduxStore } from "redux";
 import { logger } from "redux-logger";
 import createSagaMiddleware from "redux-saga";
-import { RootNavigation } from "./src/navigation/RootNavigation";
+import { Provider as PaperProvider } from "react-native-paper";
+import ThoughtContainer from "@views/Thoughts";
+import CrownImage from "@assets/img/gold_crown_plain_white.png";
+import type { Action } from "./src/actions";
+import type { State as GlobalState } from "./src/reducers";
 import reducer from "./src/reducers";
 import RootSaga from "./src/sagas/Root";
-import { Provider as PaperProvider } from "react-native-paper";
-import { theme } from "./src/assets/theme";
+import theme from "./src/assets/theme";
+
 export type Store = ReduxStore<GlobalState, Action>;
 export type GetState = () => GlobalState;
 
@@ -44,6 +40,20 @@ type State = {
   appHasLoaded: boolean
 };
 
+const withReduxStoreWrapper = (WrappedComponent: any) => (
+  <Provider store={store}>
+    <PaperProvider theme={theme}>
+      <WrappedComponent />
+    </PaperProvider>
+  </Provider>
+);
+
+export function registerScreen() {
+  Navigation.registerComponentWithRedux("navigation.Thoughts", () =>
+    withReduxStoreWrapper(ThoughtContainer)
+  );
+}
+
 export default class App extends Component<Props, State> {
   state = {
     appHasLoaded: false
@@ -55,20 +65,22 @@ export default class App extends Component<Props, State> {
       this.setState({
         appHasLoaded: true
       });
-    }, 50);
+    }, 500);
   };
 
   render() {
+    const { appHasLoaded } = this.state;
     return (
       <View key="root" style={{ flex: 1 }}>
         <Loader
-          isLoaded={this.state.appHasLoaded}
-          imageSource={require("@assets/img/gold_crown_plain_white.png")}
+          isLoaded={appHasLoaded}
+          imageSource={CrownImage}
           backgroundStyle={{ backgroundColor: colors.mainColor }}
         >
           <Provider store={store}>
             <PaperProvider theme={theme}>
-              <RootNavigation />
+              {/* <RootNavigation /> */}
+              <ThoughtContainer />
             </PaperProvider>
           </Provider>
         </Loader>
@@ -76,23 +88,3 @@ export default class App extends Component<Props, State> {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#FFF"
-  },
-  welcome: {
-    fontSize: 20,
-    color: "#333333",
-    textAlign: "center",
-    margin: 10
-  },
-  instructions: {
-    textAlign: "center",
-    color: "#333333",
-    marginBottom: 5
-  }
-});

@@ -1,36 +1,33 @@
-//@flow
-import React, { Component } from "react";
+// @flow
+import React from "react";
 import { createDrawerNavigator, createStackNavigator } from "react-navigation";
-import { TouchableOpacity, Text } from "react-native";
+import { Text } from "react-native";
 import ThoughtContainer from "@views/Thoughts";
-import AnimatedHamburger from "./AnimatedHamburger";
 import { colors } from "@assets/colors";
-import Drawer from "./Drawer";
 import type { NavigationScreenProp } from "react-navigation";
+import AnimatedHamburger from "./AnimatedHamburger";
+import Drawer from "./Drawer";
 
 export const globalNavOptions = ({
   navigation
 }: {
   navigation: NavigationScreenProp<*>
-}) => {
-  debugger;
-  return {
-    title: "ReactNavigation",
-    headerLeft: (
-      <AnimatedHamburger
-        navigation={
-          navigation // Title to appear in status bar
-        }
-      />
-    ),
-    headerStyle: {
-      borderBottomWidth: 0,
-      backgroundColor: colors.mainColor
-    },
-    headerTintColor: "#fff",
-    headerTitleStyle: { fontWeight: "bold" }
-  };
-};
+}) => ({
+  title: "ReactNavigation",
+  headerLeft: (
+    <AnimatedHamburger
+      navigation={
+        navigation // Title to appear in status bar
+      }
+    />
+  ),
+  headerStyle: {
+    borderBottomWidth: 0,
+    backgroundColor: colors.mainColor
+  },
+  headerTintColor: "#fff",
+  headerTitleStyle: { fontWeight: "bold" }
+});
 
 export const ThoughtsNavigator = createStackNavigator(
   {
@@ -65,5 +62,9 @@ export const RootNavigation = createDrawerNavigator(
     },
     Bible: { screen: wrapNavigator("Bible", () => <Text>Bible</Text>) }
   },
-  { initialRouteName: "Thoughts", contentComponent: Drawer, drawerWidth: 300 }
+  {
+    initialRouteName: "Citations",
+    contentComponent: Drawer,
+    drawerWidth: 300
+  }
 );

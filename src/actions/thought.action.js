@@ -1,10 +1,10 @@
-//@flow
+// @flow
+import type { Thought } from "@services/entities/Thought";
 import type {
   GetThoughtAction,
   GetThoughtsFailedAction,
   GetThoughtsSuccessAction
 } from "./thought.action.types";
-import type { Thought } from "@services/entities/Thought";
 
 /**
  * Create a loading thought action
@@ -19,7 +19,7 @@ export const getThoughts = (): GetThoughtAction => ({
 export function getThoughtsFailed(error: any): GetThoughtsFailedAction {
   return {
     type: "GET_THOUGHTS_FAILED",
-    error: error
+    error
   };
 }
 

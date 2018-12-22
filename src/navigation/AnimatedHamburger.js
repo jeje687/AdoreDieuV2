@@ -1,4 +1,4 @@
-//@flow
+// @flow
 import React, { Component } from "react";
 import Hamburger from "react-native-hamburger";
 import { DrawerActions } from "react-navigation";
@@ -17,35 +17,37 @@ type State = {
  * @extends {Component}
  */
 export default class AnimatedHamburger extends Component<Props, State> {
-  hamburger: Hamburger;
-
   state = {
     isOpened: false
   };
 
-  componentDidUpdate = (prevProps: Props, prevState: State) => {
+  componentDidUpdate = (prevProps: Props) => {
+    const { navigation } = this.props;
     if (
-      this.props.navigation.state.isDrawerOpen !==
-      prevProps.navigation.state.isDrawerOpen
+      navigation.state.isDrawerOpen !== prevProps.navigation.state.isDrawerOpen
     ) {
-      this.setState(({ prevState, prevProps }) => ({
-        isOpened: this.props.navigation.state.isDrawerOpen
+      this.setState(() => ({
+        isOpened: navigation.state.isDrawerOpen
       }));
-      this.hamburger._animate();
+      //   this.hamburger._animate();
     }
   };
 
+  hamburger: any;
+
   render() {
+    const { isOpened } = this.state;
+    const { navigation } = this.props;
     return (
       <Hamburger
         ref={hamburger => {
           this.hamburger = hamburger;
         }}
         color="white"
-        active={this.state.isOpened}
+        active={isOpened}
         type="spinCross"
         onPress={() => {
-          this.props.navigation.dispatch(DrawerActions.toggleDrawer());
+          navigation.dispatch(DrawerActions.toggleDrawer({}));
         }}
       />
     );

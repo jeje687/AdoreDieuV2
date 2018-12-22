@@ -1,6 +1,6 @@
 import { create } from "apisauce";
 
-export const api = create({
+export default create({
   baseURL: "http://www.adoredieu.com/mobility",
   headers: { Accept: "application/json" }
 });

@@ -1,4 +1,4 @@
-//@flow
+// @flow
 import type { Thought } from "@services/entities/Thought";
 
 export type GetThoughtAction = {|

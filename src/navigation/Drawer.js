@@ -1,23 +1,17 @@
-//@flow
+// @flow
 import React, { Component } from "react";
-import {
-  NavigationActions,
-  SafeAreaView,
-  DrawerActions
-} from "react-navigation";
-import PropTypes from "prop-types";
+import { Navigation } from "react-native-navigation";
+import Logo from "@assets/img/add_logo/add_logo.png";
 import {
   ScrollView,
-  Text,
   View,
   StyleSheet,
   Image,
-  TouchableOpacity
+  SafeAreaView
 } from "react-native";
 import { colors } from "@assets/colors";
-import Icon from "react-native-vector-icons/Ionicons";
-import { DrawerRow } from "./DrawerRow";
 import * as Animatable from "react-native-animatable";
+import { DrawerRow } from "./DrawerRow";
 
 interface Props {
   navigation: any;
@@ -27,6 +21,7 @@ interface Props {
    * @memberof Props
    */
   activeItemKey: string;
+  componentId: string;
 }
 
 interface State {
@@ -51,44 +46,77 @@ const styles = StyleSheet.create({
 export default class Drawer extends Component<Props, State> {
   viewsAnimated: Array<Animatable.View> = [];
 
-  state = { show: 0 };
-
-  navigateToScreen = (route: string) => {
-    const navigateAction = NavigationActions.navigate({
-      routeName: route
+  goHome = () => {
+    const { componentId } = this.props;
+    // setTimeout(() => {
+    //     this.navigateToScreen("Thoughts");
+    // }, 50);
+    console.log(`COMPONENT ID : ${componentId}`);
+    Navigation.mergeOptions("tab1Stack", {
+      sideMenu: {
+        left: {
+          visible: false
+        }
+      }
     });
-    this.props.navigation.dispatch(navigateAction);
-    this.props.navigation.dispatch(DrawerActions.closeDrawer({}));
+    Navigation.setStackRoot("tab1Stack", {
+      component: {
+        name: "navigation.Thoughts",
+        passProps: {
+          text: "Root screen"
+        }
+      },
+      options: {
+        animations: {
+          setStackRoot: {
+            enabled: false
+          }
+        }
+      }
+    });
   };
 
-  goHome = this.navigateToScreen.bind(this, "Thoughts");
-  goCitations = this.navigateToScreen.bind(this, "Citations");
-  goMusicPlayer = this.navigateToScreen.bind(this, "MusicPlayer");
-  goEducation = this.navigateToScreen.bind(this, "Education");
-  goBible = this.navigateToScreen.bind(this, "Bible");
-
-  componentDidUpdate(prevProps: Props, prevState: State) {
-    var lastIsOpen = prevProps.navigation.state.isDrawerOpen;
-    var isOpen = this.props.navigation.state.isDrawerOpen;
-    if (lastIsOpen !== isOpen) {
-      if (isOpen) {
-        this.viewsAnimated.forEach((view, index) => {
-          // Delay each animations
-
-          setTimeout(() => {
-            view.bounceInLeft(200).then(() => {});
-            this.setState((prevState, prevProps) => ({
-              show: index + 1
-            }));
-          }, index * 100);
-        });
-      } else {
-        this.setState((prevState, prevProps) => ({
-          show: 0
-        }));
+  goCitations = () => {
+    // setTimeout(() => {
+    //     this.navigateToScreen("Citations");
+    // }, 50);
+    Navigation.mergeOptions("tab1Stack", {
+      sideMenu: {
+        left: {
+          visible: false
+        }
       }
-    }
-  }
+    });
+    Navigation.setStackRoot("tab1Stack", {
+      component: {
+        name: "navigation.Quotes",
+        passProps: {
+          text: "Root screen"
+        }
+      },
+      options: {
+        animations: {
+          setStackRoot: {
+            enabled: false
+          }
+        }
+      }
+    });
+  };
+
+  //   goMusicPlayer = this.navigateToScreen.bind(this, "MusicPlayer");
+
+  //   goEducation = this.navigateToScreen.bind(this, "Education");
+
+  //   goBible = this.navigateToScreen.bind(this, "Bible");
+
+  navigateToScreen = () => {
+    // const navigateAction = this.props.navigation.navigate({
+    //   routeName: route
+    // });
+    // this.props.navigation.dispatch(navigateAction);
+    // this.props.navigation.dispatch(DrawerActions.closeDrawer({}));
+  };
 
   /**
    * Register a reference for animatable view and add it to viewsAnimated
@@ -100,7 +128,7 @@ export default class Drawer extends Component<Props, State> {
   };
 
   render() {
-    var { activeItemKey } = this.props;
+    const { activeItemKey } = this.props;
     return (
       <View style={{ flex: 1 }}>
         <ScrollView style={{ flex: 1 }}>
@@ -109,7 +137,7 @@ export default class Drawer extends Component<Props, State> {
             forceInset={{ top: "always", horizontal: "never" }}
           >
             <Image
-              source={require("@assets/img/add_logo/add_logo.png")}
+              source={Logo}
               resizeMode="cover"
               style={{ marginTop: 10, marginBottom: 20 }}
             />
